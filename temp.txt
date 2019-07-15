@@ -1,0 +1,119 @@
+wolfgang.chien@gmail.com
+ta-chih chien 
+========================
+** Vue
+new Date().toLocaleDateString()
+
+
+v-for="item in list"
+v-for="(item, index) in list"
+
+var obj = {
+    hello: function () {
+        alert(123);
+    }
+}
+
+obj.hello();
+obj['hello']();
+O：obj.00
+X：obj['00']
+
+<script>
+    let data = 100; => window.data
+
+    function test() {
+        alert(data); => undefined
+        var data = 50; => if 找不到，undefined <-> let:不執行(因會檢查而發現error)
+        alert(data); => 50
+    }
+
+    test();
+    alert(data); => 100
+</script>
+
+var：可重複宣告，可在宣告前使用
+let：不可重複宣告，不可在宣告前使用(=> 噴錯)，適用於更區域型的變數
+
+
+var NextNumber = (function () => ...)();
+=============================
+var test = funtction () {...} => ()：function(語法需要)
+test() => ()：執行
+
+
+setInterval(function disaply() => {
+    ......
+}, 1000)
+
+setInterval(function() => {
+    ......
+}, 1000)
+
+setInterval(() => {
+    ......
+}, 1000)
+
+
+function Hello('who') {
+    return "Hello! " . who ;
+}
+
+function sayHello(doJob) {
+    doJob('Chien');
+}
+
+sayHello(Hello); => "Hello! Chien"
+
+
+function test (a) {
+    return a + 1;
+}
+
+var test = function (a) {
+    return a + 1;
+}
+
+test = (a) => a + 1;
+
+
+fiddler
+跨域問題(瀏覽器視為不同)：通訊協定(http、https)不同、機器不同、Port不同
+endpoint & content-type 對的上
+axios
+
+$.ajax({
+    ...
+}).then(function () {
+    
+})
+
+
+{{ fullName | toUpper }} 
+=> |：pipe，filters：顯示上做變化 <-> computed：數值做變化
+
+`：接受換行、格式上加 ${x} => 變數
+
+Vue.component("btn", {
+    props: ['initCount'] => array (v-bind：init-count)
+    data: {} => function
+    template: "" => string
+})
+
+
+             props
+component  <------- 
+           --------> 
+            emit('eventName', value)
+
+
+<script type=text/x-template" id="my-component">
+    <button> ... </button>
+</script>
+
+tenmplate: "#my-component"
+
+
+
+
+

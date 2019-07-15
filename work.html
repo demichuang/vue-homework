@@ -8,15 +8,15 @@
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
-<div id="app" class="todos">
+<div id="app" class="work">
   <h1 class="work-top">Todo List</h1>
   <hr>
   <div class="new-work">
     <input type="text" v-model="newWork" v-on:keyup.enter="add" placeholder=" Add new and press enter" />
   </div>
   <div v-for="(item, index) in list" class="work-item">
-    <input type="checkbox" v-model="checkedList" :value="index">
-    <span v-show="!item.edit"> {{ item.work }} </span>
+    <input type="checkbox" v-model.lazy="checkedList" :value="index">
+    <span :class="{ checked: item.checked }" v-show="!item.edit"> {{ item.work }} </span>
     
     <input type="text" v-model="item.work" v-on:keyup.enter="edit(index)" v-show="item.edit">
     <button class="btn btn-primary  pull-right" @click="edit(index)" v-show="item.edit"> Sure </button>
@@ -24,55 +24,57 @@
     <button class="btn btn-danger pull-right" @click="del(index)" v-show="!item.edit"> Delete </button>
     <button class="btn btn-primary  pull-right" @click="edit(index)" v-show="!item.edit"> Edit </button>
   </div>
-  <!-- <div class="msg" v-if="incompleteCount === 0 && filter === 'show_all'">恭喜完成所有的項目！</div> -->
-  <!-- <div class="control">
-    <a v-on:click="setFilter('show_all')" class="btn" :class="{ active: filter === 'show_all'}">全部 ({{ allCount }})</a>
-    <a v-on:click="setFilter('show_completed')" class="btn" :class="{ active: filter === 'show_completed'}">已完成 ({{ completedCount }})</a>
-    <a v-on:click="setFilter('show_incomplete')" class="btn" :class="{ active: filter === 'show_incomplete'}">未完成 ({{ incompleteCount }})</a>
-  </div> -->
-  <!-- <input type="hidden" v-model="todosData"> -->
 </div>
 </body>
-
-  <!-- <script type="text/x-template" id="item-template">
-    <li>
-      <div>A</div>
-      <ul></ul>
-    </li>
-  </!--> 
-
   <script>
     var work = new Vue({
       el: "#app",
       data: {
         newWork: '',
-        checkedList: [1,2],
+        checkedList: [0],
         list: [
           { 
             id: 1, 
             edit: false, 
+            checked: true, 
             origin: 'swimming', 
             work: 'swimming'
           },
           { 
             id: 2, 
             edit: false, 
+            checked: false, 
             origin: 'playing chess', 
             work: 'playing chess'
           },
           { 
             id: 3, 
             edit: false, 
+            checked: false, 
             origin: 'playing baseball', 
             work: 'playing baseball'
           },
         ],
+      },
+      watch: {
+        checkedList() {
+          var keys = this.list.keys();
+          for (let key of keys) {
+            var item = this.list[key];
+            if (this.checkedList.indexOf(key) > 0) {
+              item.checked = true;
+            } else {
+              item.checked = false;
+            }
+          }
+        }
       },
       methods: {
         add() {
           this.list.push({
             id: this.list.length + 1,
             edit: false,
+            checked: false, 
             origin: this.newWork,
             work: this.newWork,
           });
@@ -85,6 +87,7 @@
         edit(index) {
           var item = this.list[index];
           item.edit = !item.edit;
+          item.origin = item.work;
         },
         del(index) {
           this.list.splice(index, 1);
@@ -94,7 +97,7 @@
   </script>
 
   <style>
-    .todos {
+    .work {
       background: rgb(212, 211, 199);
       border-radius: 10px;
       width: 600px;
@@ -102,30 +105,34 @@
       padding: 15px
     }
     
-    .work-top {
+    .work .work-top {
       font-size: 30px;
       margin: 0 0 15px 0
     }
     
-    .new-work { 
+    .work .new-work { 
       margin: 0 0 15px 0;
       font-size:15px
     }
     
-    .work-item { 
+    .work .work-item { 
       margin: 0 0 15px 0
     }
-    .btn {
+
+    .work .btn {
       margin: 2px;
     }
     
-    input[type=checkbox] {
-      text-decoration:line-through;
+    .work input[type=checkbox] {
       border: 1px solid #ddd;
       border-radius: 10px;
       color: #525252;
       height: 22px;
       padding: 5px
+    }
+
+    .work .checked {
+      text-decoration:line-through;
     }
   </style>
 </html>

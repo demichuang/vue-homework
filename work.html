@@ -15,7 +15,7 @@
     <input type="text" v-model="newWork" v-on:keyup.enter="add" placeholder=" Add new and press enter" />
   </div>
   <div v-for="(item, index) in list" class="work-item">
-    <input type="checkbox" v-model.lazy="checkedList" :value="index">
+    <input type="checkbox" v-model.lazy="checkedList" :value="index" :disabled="item.edit">
     <span :class="{ checked: item.checked }" v-show="!item.edit"> {{ item.work }} </span>
     
     <input type="text" v-model="item.work" v-on:keyup.enter="edit(index)" v-show="item.edit">
@@ -61,7 +61,7 @@
           var keys = this.list.keys();
           for (let key of keys) {
             var item = this.list[key];
-            if (this.checkedList.indexOf(key) > 0) {
+            if (this.checkedList.indexOf(key) >= 0) {
               item.checked = true;
             } else {
               item.checked = false;
@@ -90,6 +90,7 @@
           item.origin = item.work;
         },
         del(index) {
+          this.checkedList.splice(index, 1);
           this.list.splice(index, 1);
         },
       }
